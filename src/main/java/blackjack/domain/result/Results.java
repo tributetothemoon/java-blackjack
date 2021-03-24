@@ -43,14 +43,9 @@ public class Results {
 
     public DealerResult generateDealerResult() {
         HashMap<ResultType, Integer> dealerMatchResult = new HashMap<>();
-        Arrays.stream(ResultType.values())
-                .forEach(resultType -> dealerMatchResult.put(resultType, INITIALIZE_VALUE));
-        Arrays.stream(ResultType.values())
-                .forEach(resultType -> {
-                    dealerMatchResult.put(
-                            resultType.reverse(),
-                            dealerMatchResult.get(resultType.reverse()) + this.count(resultType));
-                });
+        for (ResultType resultType: ResultType.values()) {
+            dealerMatchResult.merge(resultType.reverse(), this.count(resultType), Integer::sum);
+        }
         return new DealerResult(dealerMatchResult, this.getTotalProfit() * TO_NEGATIVE_VALUE);
     }
 
