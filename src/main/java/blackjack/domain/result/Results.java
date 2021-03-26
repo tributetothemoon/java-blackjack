@@ -1,6 +1,5 @@
 package blackjack.domain.result;
 
-import blackjack.domain.Money;
 import blackjack.domain.ProfitTable;
 import blackjack.domain.ResultType;
 import blackjack.domain.user.Player;
@@ -8,14 +7,12 @@ import blackjack.domain.user.Player;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
-import java.util.Arrays;
 import java.util.Objects;
 
 import static java.util.stream.Collectors.*;
 
 public class Results {
     private static final long TO_NEGATIVE_VALUE = -1;
-    private static final int INITIALIZE_VALUE = 0;
 
     private final Map<Player, ResultType> matchResults;
     private final Map<Player, Double> profits;
@@ -26,7 +23,7 @@ public class Results {
     }
 
     public static Results of(Map<Player, ResultType> matchResults) {
-        Map<Player, Double> profitMap = matchResults.keySet().stream().parallel()
+        Map<Player, Double> profitMap = matchResults.keySet().stream()
                 .collect(toMap(
                         player -> player,
                         player -> ProfitTable.translateBettingMoney(matchResults.get(player), player.getBettingMoney())));
@@ -55,7 +52,7 @@ public class Results {
     }
 
     private int count(ResultType resultType) {
-        return (int) this.matchResults.values().stream().parallel()
+        return (int) this.matchResults.values().stream()
                 .filter(resultType::equals)
                 .count();
     }
